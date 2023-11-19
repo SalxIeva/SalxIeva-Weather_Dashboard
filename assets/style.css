@@ -10,4 +10,34 @@
     padding: 20px;
 }
  */ 
- 
+ .form-group {
+    /* display: flex;
+    flex-direction: column; */
+    display: inline;
+    /* margin: 10px auto; */
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.weather-search {
+    margin-bottom: 15px;
+    padding: 7px;
+    width: 100%;
+    border-radius: 7px;
+}
+
+.search-button {
+    width: 100%;
+    border: none;
+}
+
+.search-button {
+    width: 100%;
+    color: #0099DD;
+}
+
+
