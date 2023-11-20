@@ -44,8 +44,14 @@
     font-weight: normal;
     font-size: medium;
 }
-#today {
+/* #today {
     padding: 10px;
     border: 1px solid black;
+} */
+#today {
+    padding: 10px;
 }
 
+#today.bordered {
+    border: 1px solid black;
+}

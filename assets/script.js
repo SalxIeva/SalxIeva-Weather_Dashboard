@@ -54,6 +54,12 @@ $("#search-button").on("click", function (event) {
         cityEl.append(pTemp);
         cityEl.append(pWind);
         cityEl.append(pHumidity);
+
+        // checking whether there are user search results
+        var results = data && data.name;
+        // add or remove the 'bordered' class based on the search results
+        $("#today").toggleClass('bordered', results);
+
         $("#today").empty();
         $("#today").append(cityEl);
        
