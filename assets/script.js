@@ -4,7 +4,7 @@ $("#search-button").on("click", function (event) {
     event.preventDefault();
      
     var name = $("#search-input").val();
-    var APIKey = "";
+    var APIKey = "198a22f2c9df51736e5b079afd6d3dd6";
 
     // var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=" + APIkey;
 
@@ -17,6 +17,10 @@ $("#search-button").on("click", function (event) {
     //  console.log(queryURL);
      console.log(data);
      
+    var lat = data.coord.lat.toFixed(2);
+    console.log(lat);
+    var lon = data.coord.lon.toFixed(2);
+    console.log(lon);
     //  var results = data;
      
     //  for (var i = 0; i < results.length; i++) {
@@ -38,7 +42,7 @@ $("#search-button").on("click", function (event) {
             cityEl.append(weatherIcon);
         }
 
-        console.log(cityEl);
+        // console.log(cityEl);
         // temp, wind, humidity variables are set using data from console array
         var temp = data.main.temp.toFixed(0) + " °C";
         console.log(temp);
@@ -62,7 +66,7 @@ $("#search-button").on("click", function (event) {
 
         $("#today").empty();
         $("#today").append(cityEl);
-       
+   
     });
 })
 
