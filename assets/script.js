@@ -30,7 +30,7 @@ $("#search-button").on("click", function (event) {
         console.log(currentDt);
         var cityEl = $("<h2 class='city'>").text(cityName + " " + currentDt);
 
-        // Weather icon added
+        // weather icon added
         if (data.weather && data.weather[0] && data.weather[0].icon) {
             var iconCode = data.weather[0].icon;
             var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
