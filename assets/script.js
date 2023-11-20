@@ -28,25 +28,35 @@ $("#search-button").on("click", function (event) {
         var cityName = data.name;
         var currentDt = dayjs().format("D-M-YYYY");
         console.log(currentDt);
-        var cityDiv = $("<div class='city'>").text(cityName + currentDt);
-        console.log(cityDiv);
+        var cityEl = $("<h2 class='city'>").text(cityName + " " + currentDt);
+
+        // Weather icon added
+        if (data.weather && data.weather[0] && data.weather[0].icon) {
+            var iconCode = data.weather[0].icon;
+            var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+            var weatherIcon = $("<img>").attr("src", iconUrl).attr("alt", "Weather Icon");
+            cityEl.append(weatherIcon);
+        }
+
+        console.log(cityEl);
+        // temp, wind, humidity variables are set using data from console array
         var temp = data.main.temp.toFixed(0) + " °C";
         console.log(temp);
         var wind = data.wind.speed.toFixed(1) + " KPH";
         console.log(wind);
         var humidity = data.main.humidity + "%";
         console.log(humidity);
-
+        // temp, wind, humidity are added as elements to html
         var pTemp = $("<p id='temp'>").text("Temp: " + temp);
         var pWind = $("<p id='wind'>").text("Wind: " + wind);
         var pHumidity = $("<p id='humidity'>").text("Humidity: " + humidity);
 
-        cityDiv.append(pTemp);
-        cityDiv.append(pWind);
-        cityDiv.append(pHumidity);
+        cityEl.append(pTemp);
+        cityEl.append(pWind);
+        cityEl.append(pHumidity);
         $("#today").empty();
-        $("#today").append(cityDiv);
-        
+        $("#today").append(cityEl);
+       
     });
 })
 
