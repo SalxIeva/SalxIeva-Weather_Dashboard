@@ -4,7 +4,7 @@ $("#search-button").on("click", function (event) {
     event.preventDefault();
      
     var name = $("#search-input").val();
-    var APIKey = "198a22f2c9df51736e5b079afd6d3dd6";
+    var APIKey = "";
 
     // var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=" + APIkey;
 
