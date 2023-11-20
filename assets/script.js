@@ -26,7 +26,7 @@ $("#search-button").on("click", function (event) {
         //      console.log(currentDt);
         //     }
         var cityName = data.name;
-        var currentDt = dayjs("D-M-YYYY");
+        var currentDt = dayjs().format("D-M-YYYY");
         console.log(currentDt);
         var cityDiv = $("<div class='city'>").text(cityName + currentDt);
         console.log(cityDiv);
@@ -37,6 +37,15 @@ $("#search-button").on("click", function (event) {
         var humidity = data.main.humidity + "%";
         console.log(humidity);
 
+        var pTemp = $("<p id='temp'>").text("Temp: " + temp);
+        var pWind = $("<p id='wind'>").text("Wind: " + wind);
+        var pHumidity = $("<p id='humidity'>").text("Humidity: " + humidity);
+
+        cityDiv.append(pTemp);
+        cityDiv.append(pWind);
+        cityDiv.append(pHumidity);
+        $("#today").empty();
+        $("#today").append(cityDiv);
         
     });
 })
