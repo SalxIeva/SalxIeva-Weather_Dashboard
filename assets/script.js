@@ -4,7 +4,7 @@ $("#search-button").on("click", function (event) {
     event.preventDefault();
      
     var name = $("#search-input").val();
-    var APIKey = "";
+    var APIKey = "198a22f2c9df51736e5b079afd6d3dd6";
 
     // var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=" + APIkey;
 
@@ -14,10 +14,31 @@ $("#search-button").on("click", function (event) {
       return response.json();
     })
     .then(function (data) {
-     console.log(queryURL);
+    //  console.log(queryURL);
      console.log(data);
-    });
+     
+    //  var results = data;
+     
+    //  for (var i = 0; i < results.length; i++) {
+        // var currentDt = dayjs("D-M-YYYY");
+        // var cityDiv = $("<div class='city'>").text(data.main.name + currentDt);
+        //      // var pOne = $("<p>").text("Temp: " + )
+        //      console.log(currentDt);
+        //     }
+        var cityName = data.name;
+        var currentDt = dayjs("D-M-YYYY");
+        console.log(currentDt);
+        var cityDiv = $("<div class='city'>").text(cityName + currentDt);
+        console.log(cityDiv);
+        var temp = data.main.temp.toFixed(0) + " °C";
+        console.log(temp);
+        var wind = data.wind.speed.toFixed(1) + " KPH";
+        console.log(wind);
+        var humidity = data.main.humidity + "%";
+        console.log(humidity);
 
+        
+    });
 })
 
 
