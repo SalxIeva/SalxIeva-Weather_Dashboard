@@ -92,12 +92,44 @@ function displayForecast(latitude, longitude) {
         })
         .then(function (data) {
             console.log("API data: ", data);
-           
+        //    currentDate++;
+            // function showforcasedData(day, index) {
+            //     var results = data;
+            //     for (var i = 0; i < results.length; i++) {
+            //         var date = 
+            //     }
+            // }
        
             // map(day, index) {
             // }
+            // call the groupforecastbyday function
+            forecastsByDay = groupForecastsByDay(data.list);
+            console.log(forecastsByDay);
         });
 }
+
+// ! need to group forecast data into a new array, each array would be different day 
+function groupForecastsByDay(forecasts) {
+    // set var for new array
+    var forecastsByDay = {};
+    // console.log(forecastsByDay);
+
+    // loop to go through each forecast in the array
+    forecasts.forEach(forecast => {
+        // for each forecast take a date and time and convert it to local date and time
+        var date = new Date(forecast.dt_txt).toLocaleString();
+        // console.log(date);
+        // if the same date array doesn't exist, then create a new one
+        if (!forecastsByDay[date]) {
+            forecastsByDay[date] = [];
+        }
+        // push current forecast into the array dependant on the date
+        forecastsByDay[date].push(forecast);
+    })
+    return forecastsByDay;
+}
+
+// can map() results from new array to get average temp, humidity, and icon
 
 
 // Create a weather dashboard with form inputs.
