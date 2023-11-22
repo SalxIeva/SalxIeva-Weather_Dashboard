@@ -32,7 +32,7 @@
   
 }
 
-#temp, #wind, #humidity {
+.temp, .wind, .humidity {
     font-weight: normal;
     font-size: medium;
 }
@@ -49,5 +49,9 @@
 }
 
 div {
+    border: 2px solid red;
+}
+
+#forecast {
     border: 2px solid red;
 }
