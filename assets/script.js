@@ -105,8 +105,7 @@ function displayForecast(latitude, longitude) {
             // call the groupforecastbyday function
             forecastsByDay = groupForecastsByDay(data.list);
             console.log(forecastsByDay);
-            // mappedResults = mapForecastResult(data.list);
-            // console.log(mappedResults);
+        
         });
 };
 
@@ -134,24 +133,40 @@ function groupForecastsByDay(forecasts) {
 // console.log("return: ", forecastsByDay);
 
 // can map() results from new array to get average temp, humidity, and icon
-function mapForecastResult(forecastsByDay) {
-    var mappedResults = [];
+function calculateMinMaxTemp(forecasts) {
+    var minTemp = Number.MAX_VALUE;
+    var maxTemp = Number.MIN_VALUE;
 
-    Object.keys(forecastsByDay).map(date => {
-        var forecasts = forecastsByDay[date];
-        //calculate the average temperature for the day
-        var minTemp = calculateMinTemp(forecasts);
-        var maxTemp = calculateMaxTemp(forecasts);
-        // Push the mapped result to the array
-        mappedResults.push({
-            date: date,
-            averageTemp: averageTemp,
-           
-        });
+    forecasts.forEach(forecast => {
+        var temp = forecast.main.temp;
+        minTemp = Math.min(minTemp, temp);
+        maxTemp = Math.max(maxTemp, temp);
     });
-
-    return mappedResults;
+    return { minTemp, maxTemp }; 
 }
+
+
+// function mapForecastResult(forecastsByDay) {
+//     var mappedResults = [];
+
+//     Object.keys(forecastsByDay).map(date => {
+//         var forecasts = forecastsByDay[date];
+//         //calculate the average temperature for the day
+//         var minTemp = calculateMinTemp(forecasts);
+//         var maxTemp = calculateMaxTemp(forecasts);
+//         // Push the mapped result to the array
+//         mappedResults.push({
+//             date: date,
+//             averageTemp: averageTemp,
+           
+//         });
+//     });
+
+//     return mappedResults;
+// }
+
+
+
 
 // Create a weather dashboard with form inputs.
 // When a user searches for a city they are presented with current and future conditions for that city and that city is added to the search history
