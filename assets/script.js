@@ -21,31 +21,23 @@ $("#search-button").on("click", function (event) {
     .then(function (data) {
     // console.log(queryURL);
      console.log(data);
-     
-    // var lat = data.coord.lat.toFixed(2);
-    // console.log(lat);
-    // var lon = data.coord.lon.toFixed(2);
-    // console.log(lon);
-    //  var results = data;
-     
-    //  for (var i = 0; i < results.length; i++) {
-        // var currentDt = dayjs("D-M-YYYY");
-        // var cityDiv = $("<div class='city'>").text(data.main.name + currentDt);
-        //      // var pOne = $("<p>").text("Temp: " + )
-        //      console.log(currentDt);
-        //     }
-
+        // var created for name of the city
         var cityName = data.name;
         // var created for current date
         var currentDt = dayjs().format("D-M-YYYY");
         console.log(currentDt);
+        // cityEl added to display cityName and currentDt inside html page (<h2>) element
         var cityEl = $("<h2 class='city'>").text(cityName + " " + currentDt);
 
         // weather icon added
         if (data.weather && data.weather[0] && data.weather[0].icon) {
+            // icon var created to get the icon from queryURL data
             var icon = data.weather[0].icon;
+            // icon url added from openweathermap.org
             var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
+            // var created to add icon url to the <img> element within html page
             var weatherIcon = $("<img>").attr("src", iconUrl).attr("alt", "Weather Icon");
+            // weather icon appended to be displayed next to date
             cityEl.append(weatherIcon);
         }
         // console.log(cityEl);
@@ -86,28 +78,19 @@ $("#search-button").on("click", function (event) {
 // function created to fetch ofrecast data by citys latitude and longitude
 function displayForecast(latitude, longitude) {
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + APIkey;
-    
+    // getting weather data from queryURL
     fetch(queryURL)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             console.log("API data: ", data);
-        //    currentDate++;
-            // function showforcasedData(day, index) {
-            //     var results = data;
-            //     for (var i = 0; i < results.length; i++) {
-            //         var date = 
-            //     }
-            // }
-       
-            // map(day, index) {
-            // }
             // call the groupforecastbyday function
             forecastsByDay = groupForecastsByDay(data.list);
             console.log(forecastsByDay);
-            
+            // call mapResults function 
             mapResults();
+            // display mapResults
         });
 };
 
@@ -131,7 +114,6 @@ function groupForecastsByDay(forecasts) {
     });
     return forecastsByDay;
 };
-// groupForecastsByDay(forecastsByDay);
 // console.log("return: ", forecastsByDay);
 
 // can map() results from new array to get average temp, humidity, and icon
@@ -165,24 +147,6 @@ function mapResults() {
 
     console.log(mappedResults);
 }
-// function mapForecastResult(forecastsByDay) {
-//     var mappedResults = [];
-
-//     Object.keys(forecastsByDay).map(date => {
-//         var forecasts = forecastsByDay[date];
-//         //calculate the average temperature for the day
-//         var minTemp = calculateMinTemp(forecasts);
-//         var maxTemp = calculateMaxTemp(forecasts);
-//         // Push the mapped result to the array
-//         mappedResults.push({
-//             date: date,
-//             averageTemp: averageTemp,
-           
-//         });
-//     });
-
-//     return mappedResults;
-// }
 
 
 
