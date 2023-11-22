@@ -3,13 +3,6 @@
     /* height: 60px; */
 }
 
-/* h1 {
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    padding: 20px;
-}
- */
 
 .form-group {
     display: flex;
@@ -24,22 +17,21 @@
     border-radius: 7px;
     box-sizing: border-box;
 }
+.input-group {
+    display: flex;
+    flex-direction: column;
+}
 
-.search-button, .input-goup-append {
-    width: 450%;
+.search-button,.input-goup-append { 
+    width: 100%;
     border: none;
     margin-top: 5px;
     padding: 7px;
     box-sizing: border-box;
+    /* size: 100%; */
+  
 }
 
-/* .search-button {
-    width: 100%;
-    color: #0099DD;
-} */
-.hr {
-    width: 450%;
-}
 #temp, #wind, #humidity {
     font-weight: normal;
     font-size: medium;
@@ -54,4 +46,8 @@
 
 #today.bordered {
     border: 1px solid black;
+}
+
+div {
+    border: 2px solid red;
 }

@@ -1,6 +1,6 @@
 console.log("JS connected");
 // find the city by using click function on search button
-var APIKey = "198a22f2c9df51736e5b079afd6d3dd6";
+var APIkey = "198a22f2c9df51736e5b079afd6d3dd6";
 
 // click function for search button, to retrieve data from once user presses search button
 $("#search-button").on("click", function (event) {
@@ -11,14 +11,14 @@ $("#search-button").on("click", function (event) {
     var name = $("#search-input").val();
 
     // var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=" + APIkey;
-    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=" + APIKey + "&units=metric";
+    var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=" + APIkey + "&units=metric";
     // fetching weather data from queryURL
     fetch(queryURL)
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-    //  console.log(queryURL);
+    // console.log(queryURL);
      console.log(data);
      
     // var lat = data.coord.lat.toFixed(2);
@@ -43,7 +43,7 @@ $("#search-button").on("click", function (event) {
         // weather icon added
         if (data.weather && data.weather[0] && data.weather[0].icon) {
             var icon = data.weather[0].icon;
-            var iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
+            var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
             var weatherIcon = $("<img>").attr("src", iconUrl).attr("alt", "Weather Icon");
             cityEl.append(weatherIcon);
         }
@@ -84,7 +84,7 @@ $("#search-button").on("click", function (event) {
 
 // function created to fetch ofrecast data by citys latitude and longitude
 function displayForecast(latitude, longitude) {
-    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + APIKey;
+    var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + APIkey;
     
     fetch(queryURL)
         .then(function (response) {
@@ -105,8 +105,10 @@ function displayForecast(latitude, longitude) {
             // call the groupforecastbyday function
             forecastsByDay = groupForecastsByDay(data.list);
             console.log(forecastsByDay);
+            // mappedResults = mapForecastResult(data.list);
+            // console.log(mappedResults);
         });
-}
+};
 
 // ! need to group forecast data into a new array, each array would be different day 
 function groupForecastsByDay(forecasts) {
@@ -117,20 +119,39 @@ function groupForecastsByDay(forecasts) {
     // loop to go through each forecast in the array
     forecasts.forEach(forecast => {
         // for each forecast take a date and time and convert it to local date and time
-        var date = new Date(forecast.dt_txt).toLocaleString();
+        var date = forecast.dt_txt.split(' ')[0];
         // console.log(date);
         // if the same date array doesn't exist, then create a new one
         if (!forecastsByDay[date]) {
             forecastsByDay[date] = [];
-        }
+        };
         // push current forecast into the array dependant on the date
         forecastsByDay[date].push(forecast);
-    })
+    });
     return forecastsByDay;
-}
+};
+// groupForecastsByDay(forecastsByDay);
+// console.log("return: ", forecastsByDay);
 
 // can map() results from new array to get average temp, humidity, and icon
+function mapForecastResult(forecastsByDay) {
+    var mappedResults = [];
 
+    Object.keys(forecastsByDay).map(date => {
+        var forecasts = forecastsByDay[date];
+        //calculate the average temperature for the day
+        var minTemp = calculateMinTemp(forecasts);
+        var maxTemp = calculateMaxTemp(forecasts);
+        // Push the mapped result to the array
+        mappedResults.push({
+            date: date,
+            averageTemp: averageTemp,
+           
+        });
+    });
+
+    return mappedResults;
+}
 
 // Create a weather dashboard with form inputs.
 // When a user searches for a city they are presented with current and future conditions for that city and that city is added to the search history
