@@ -92,17 +92,19 @@ function displayForecast(latitude, longitude) {
             // call mapResults function 
             mappedResults = mapResults();
 
+            var forecastEl = $("<h3 class='input-forecast'>").text("5 Day Forecast");
+            $("#forecast").append(forecastEl);
 
             // display mapResults
             for (var i = 0; i < mappedResults.length; i++) {
                 var date = mappedResults[i].date;
                 console.log(date);
-                var minTemp = mappedResults[i].minTemp + " °C";
+                var minTemp = mappedResults[i].minTemp.toFixed(2) + " °C";
                 console.log("Min Temp:", minTemp);
-                var maxTemp = mappedResults[i].maxTemp + " °C";
+                var maxTemp = mappedResults[i].maxTemp.toFixed(2) + " °C";
                 console.log("Max Temp:", maxTemp);
 
-            }
+          }
         });
 };
 
@@ -146,7 +148,6 @@ function calculateMinMaxTemp(forecasts) {
 
 // create a function to map all over an array of each day 
 // get object with the date and min/max temp
-
 function mapResults() {
     // get forecastsByDay data date object
     var mappedResults = Object.keys(forecastsByDay).map(date => {
@@ -156,8 +157,7 @@ function mapResults() {
         return {
             date: date,
             minTemp: minTemp,
-            maxTemp: maxTemp
-         
+            maxTemp: maxTemp 
         };
     });
     console.log(mappedResults);
