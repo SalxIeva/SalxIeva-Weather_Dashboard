@@ -2,6 +2,7 @@ console.log("JS connected");
 // find the city by using click function on search button
 var APIkey = "198a22f2c9df51736e5b079afd6d3dd6";
 var forecastsByDay;
+var mappedResults;
 
 // click function for search button, to retrieve data from once user presses search button
 $("#search-button").on("click", function (event) {
@@ -43,16 +44,16 @@ $("#search-button").on("click", function (event) {
         // console.log(cityEl);
 
         // temp, wind, humidity variables are set using data from console array
-        var temp = data.main.temp.toFixed(0) + " °C";
+        var temp = data.main.temp.toFixed(1) + " °C";
         console.log(temp);
         var wind = data.wind.speed.toFixed(1) + " KPH";
         console.log(wind);
         var humidity = data.main.humidity + "%";
         console.log(humidity);
         // temp, wind, humidity are added as elements to html
-        var pTemp = $("<p id='temp'>").text("Temp: " + temp);
-        var pWind = $("<p id='wind'>").text("Wind: " + wind);
-        var pHumidity = $("<p id='humidity'>").text("Humidity: " + humidity);
+        var pTemp = $("<p class='temp'>").text("Temp: " + temp);
+        var pWind = $("<p class='wind'>").text("Wind: " + wind);
+        var pHumidity = $("<p class='humidity'>").text("Humidity: " + humidity);
         // append all the p elements to the cityEl div
         cityEl.append(pTemp);
         cityEl.append(pWind);
@@ -89,8 +90,19 @@ function displayForecast(latitude, longitude) {
             forecastsByDay = groupForecastsByDay(data.list);
             console.log(forecastsByDay);
             // call mapResults function 
-            mapResults();
+            mappedResults = mapResults();
+
+
             // display mapResults
+            for (var i = 0; i < mappedResults.length; i++) {
+                var date = mappedResults[i].date;
+                console.log(date);
+                var minTemp = mappedResults[i].minTemp + " °C";
+                console.log("Min Temp:", minTemp);
+                var maxTemp = mappedResults[i].maxTemp + " °C";
+                console.log("Max Temp:", maxTemp);
+
+            }
         });
 };
 
@@ -127,25 +139,30 @@ function calculateMinMaxTemp(forecasts) {
         // use math.min/max to get average min/max temp
         minTemp = Math.min(minTemp, temp);
         maxTemp = Math.max(maxTemp, temp);
+        temp = (minTemp + maxTemp) / 2;
     });
     return { minTemp, maxTemp }; 
 }
 
 // create a function to map all over an array of each day 
 // get object with the date and min/max temp
+
 function mapResults() {
     // get forecastsByDay data date object
     var mappedResults = Object.keys(forecastsByDay).map(date => {
+        // var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
         var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
         // return mapResults as an array
         return {
             date: date,
             minTemp: minTemp,
             maxTemp: maxTemp
+         
         };
     });
-
     console.log(mappedResults);
+    return mappedResults
+
 }
 
 
