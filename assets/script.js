@@ -63,7 +63,7 @@ $("#search-button").on("click", function (event) {
 
         // checking whether there are user search results
         var results = data && data.name;
-        // add or remove the 'bordered' class based on the search results
+        // 'bordered' class based on the search results
         $("#today").toggleClass('bordered', results);
 
         // $("#today").empty();
@@ -95,7 +95,7 @@ function displayForecast(latitude, longitude) {
             // call mapResults function 
             mappedResults = mapResults();
 
-            var forecastEl = $("<h3 class='input-forecast'>").text("5 Day Forecast");
+            var forecastEl = $("<div class='input-forecast'>").text("5 Day Forecast");
             $("#forecast").append(forecastEl);
 
           //  display mapResults
@@ -111,6 +111,16 @@ function displayForecast(latitude, longitude) {
                 var windSpeed = mappedResults[i].maxWindSpd.toFixed(2) + " KPH";
                 console.log("Wind Speed: ", windSpeed);
 
+                var dateEl = $("<h5 class='date container'>").text(date);
+                var pTemp = $("<p class='temp'>").text("Temp: " + temp);
+                var pWind = $("<p class='wind'>").text("Wind Speed: " + windSpeed);
+                var pHumidity = $("<p class='humidity'>").text("Humidity: " + humidity);
+
+                forecastEl.append(dateEl);
+                dateEl.append(pTemp);
+                dateEl.append(pWind);
+                dateEl.append(pHumidity);
+                $("#forecast").append(forecastEl);
           }
 
 

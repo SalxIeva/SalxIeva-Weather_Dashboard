@@ -55,3 +55,12 @@ div {
 #forecast {
     border: 2px solid red;
 }
+
+.input-forecast {
+    font-size: x-large;
+    font-weight: 600;
+}
+
+.container {
+    border: 2px solid red;
+}
