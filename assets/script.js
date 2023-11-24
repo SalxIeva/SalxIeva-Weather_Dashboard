@@ -96,15 +96,22 @@ function displayForecast(latitude, longitude) {
             $("#forecast").append(forecastEl);
 
             // display mapResults
-            for (var i = 0; i < mappedResults.length; i++) {
-                var date = mappedResults[i].date;
-                console.log(date);
-                var minTemp = mappedResults[i].minTemp.toFixed(2) + " °C";
-                console.log("Min Temp:", minTemp);
-                var maxTemp = mappedResults[i].maxTemp.toFixed(2) + " °C";
-                console.log("Max Temp:", maxTemp);
+        //     for (var i = 0; i < mappedResults.length; i++) {
+        //         var date = mappedResults[i].date;
+        //         console.log(date);
+        //         var minTemp = mappedResults[i].minTemp.toFixed(2) + " °C";
+        //         console.log("Min Temp:", minTemp);
+        //         var maxTemp = mappedResults[i].maxTemp.toFixed(2) + " °C";
+        //         console.log("Max Temp:", maxTemp);
 
-          }
+        //   }
+
+        for (var i = 0; i < mappedResults.length; i++) {
+            var date = mappedResults[i].date;
+            console.log(date);
+            var temp = mappedResults[i].temp.toFixed(2);
+            console.log("temp: ", temp);
+        }
         });
 };
 
@@ -130,41 +137,72 @@ function groupForecastsByDay(forecasts) {
 };
 // console.log("return: ", forecastsByDay);
 
-// can map() results from new array to get average temp, humidity, and icon
-// function to calculate min max temperature
-function calculateMinMaxTemp(forecasts) {
-    var minTemp = Number.MAX_VALUE;
-    var maxTemp = Number.MIN_VALUE;
-    // use forEach to apply for every array list. 
+
+//----------------
+
+// // can map() results from new array to get average temp, humidity, and icon
+// // function to calculate min max temperature
+// function calculateMinMaxTemp(forecasts) {
+//     var minTemp = Number.MAX_VALUE;
+//     var maxTemp = Number.MIN_VALUE;
+//     // use forEach to apply for every array list. 
+//     forecasts.forEach(forecast => {
+//         var temp = forecast.main.temp;
+//         // use math.min/max to get average min/max temp
+//         minTemp = Math.min(minTemp, temp);
+//         maxTemp = Math.max(maxTemp, temp);
+//         temp = (minTemp + maxTemp) / 2;
+//     });
+//     return { minTemp, maxTemp }; 
+// }
+
+// // create a function to map all over an array of each day 
+// // get object with the date and min/max temp
+// function mapResults() {
+//     // get forecastsByDay data date object
+//     var mappedResults = Object.keys(forecastsByDay).map(date => {
+//         // var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
+//         var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
+//         // return mapResults as an array
+//         return {
+//             date: date,
+//             minTemp: minTemp,
+//             maxTemp: maxTemp 
+//         };
+//     });
+//     console.log(mappedResults);
+//     return mappedResults
+
+// } 
+//--------------------------------
+
+function calculateAverageTemp(forecasts) {
+    var sumTemp = 0;
+
     forecasts.forEach(forecast => {
         var temp = forecast.main.temp;
-        // use math.min/max to get average min/max temp
-        minTemp = Math.min(minTemp, temp);
-        maxTemp = Math.max(maxTemp, temp);
-        temp = (minTemp + maxTemp) / 2;
+        sumTemp += temp;
     });
-    return { minTemp, maxTemp }; 
+
+    var avgTemp = sumTemp / forecasts.length;
+    return avgTemp;
 }
 
-// create a function to map all over an array of each day 
-// get object with the date and min/max temp
+// map function used to mapp all the results from same day array
 function mapResults() {
     // get forecastsByDay data date object
     var mappedResults = Object.keys(forecastsByDay).map(date => {
-        // var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
-        var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
+        var temp = calculateAverageTemp(forecastsByDay[date]);
         // return mapResults as an array
         return {
             date: date,
-            minTemp: minTemp,
-            maxTemp: maxTemp 
+            temp: temp
         };
     });
+
     console.log(mappedResults);
-    return mappedResults
-
+    return mappedResults;
 }
-
 
 
 
