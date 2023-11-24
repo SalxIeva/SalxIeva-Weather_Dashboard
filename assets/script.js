@@ -4,7 +4,7 @@ var APIkey = "198a22f2c9df51736e5b079afd6d3dd6";
 // variables set to store forecast data
 var forecastsByDay;
 var mappedResults;
-var highestTemperature;
+
 
 // click function for search button, to retrieve data from once user presses search button
 $("#search-button").on("click", function (event) {
@@ -109,12 +109,6 @@ function displayForecast(latitude, longitude) {
 
           }
 
-        // for (var i = 0; i < mappedResults.length; i++) {
-        //     var date = mappedResults[i].date;
-        //     console.log(date);
-        //     var temp = mappedResults[i].temp.toFixed(2);
-        //     console.log("temp: ", temp);
-        // }
 
         });
 };
@@ -145,19 +139,38 @@ function groupForecastsByDay(forecasts) {
 //----------------
 
 // can map() results from new array to get average temp, humidity, and icon
-// function to calculate min max temperature
-function calculateMinMaxTemp(forecasts) {
+// function to calculate min max temperature, humidity, wind speed
+function calculateMinMax(forecasts) {
     var minTemp = Number.MAX_VALUE;
     var maxTemp = Number.MIN_VALUE;
+    var minHum = Number.MAX_VALUE;
+    var maxHum = Number.MIN_VALUE;
+    var minWindSpd = Number.MAX_VALUE;
+    var maxWindSpd = Number.MIN_VALUE;
     // use forEach to apply for every array list. 
     forecasts.forEach(forecast => {
         var temp = forecast.main.temp;
-        // use math.min/max to get average min/max temp
+        var humidity = forecast.main.humidity;
+        var windSpeed = forecast.wind.speed;
+        // use math.min/max to get average min/max temp, humidity, wind speed
         minTemp = Math.min(minTemp, temp);
         maxTemp = Math.max(maxTemp, temp);
-        temp = (minTemp + maxTemp) / 2;
+
+        minHum = Math.min(minHum, humidity);
+        maxHum = Math.max(maxHum, humidity);
+
+        minWindSpd = Math.min(minWindSpd, windSpeed);
+        maxWindSpd = Math.max(maxWindSpd, windSpeed);
+
+   
     });
-    return { minTemp, maxTemp }; 
+    return { 
+        minTemp, 
+        maxTemp,
+        minHum,
+        maxHum,
+        minWindSpd,
+        maxWindSpd }; 
 }
 
 // create a function to map all over an array of each day 
@@ -171,7 +184,7 @@ function mapResults() {
         return {
             date: date,
             minTemp: minTemp,
-            maxTemp: maxTemp 
+            maxTemp: maxTemp
         };
     });
     console.log(mappedResults);
@@ -180,33 +193,7 @@ function mapResults() {
 } 
 //--------------------------------
 
-// function calculateAverageTemp(forecasts) {
-//     var sumTemp = 0;
 
-//     forecasts.forEach(forecast => {
-//         var temp = forecast.main.temp;
-//         sumTemp += temp;
-//     });
-
-//     var avgTemp = sumTemp / forecasts.length;
-//     return avgTemp;
-// }
-
-// // map function used to mapp all the results from same day array
-// function mapResults() {
-//     // get forecastsByDay data date object
-//     var mappedResults = Object.keys(forecastsByDay).map(date => {
-//         var temp = calculateAverageTemp(forecastsByDay[date]);
-//         // return mapResults as an array
-//         return {
-//             date: date,
-//             temp: temp
-//         };
-//     });
-
-//     console.log(mappedResults);
-//     return mappedResults;
-// }
 
 
 
