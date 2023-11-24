@@ -104,8 +104,12 @@ function displayForecast(latitude, longitude) {
                 console.log(date);
                 // var minTemp = mappedResults[i].minTemp.toFixed(2) + " °C";
                 // console.log("Min Temp:", minTemp);
-                var maxTemp = mappedResults[i].maxTemp.toFixed(2) + " °C";
-                console.log("Max Temp:", maxTemp);
+                var temp = mappedResults[i].maxTemp.toFixed(2) + " °C";
+                console.log("Max Temp: ", temp);
+                var humidity = mappedResults[i].maxHum.toFixed(0) + " %";
+                console.log("Humidity: ", humidity);
+                var windSpeed = mappedResults[i].maxWindSpd.toFixed(2) + " KPH";
+                console.log("Wind Speed: ", windSpeed);
 
           }
 
@@ -178,18 +182,20 @@ function calculateMinMax(forecasts) {
 function mapResults() {
     // get forecastsByDay data date object
     var mappedResults = Object.keys(forecastsByDay).map(date => {
-        // var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
-        var { minTemp, maxTemp } = calculateMinMaxTemp(forecastsByDay[date]);
+    var { minTemp, maxTemp, minHum, maxHum, minWindSpd, maxWindSpd } = calculateMinMax(forecastsByDay[date]);
         // return mapResults as an array
         return {
             date: date,
             minTemp: minTemp,
-            maxTemp: maxTemp
+            maxTemp: maxTemp,
+            minHum: minHum,
+            maxHum: maxHum,
+            minWindSpd: minWindSpd,
+            maxWindSpd: maxWindSpd
         };
     });
     console.log(mappedResults);
-    return mappedResults
-
+    return mappedResults;
 } 
 //--------------------------------
 
