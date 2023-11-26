@@ -95,7 +95,7 @@ function displayForecast(latitude, longitude) {
             // call mapResults function 
             mappedResults = mapResults();
 
-            var forecastEl = $("<div class='input-forecast'>").text("5 Day Forecast");
+            var forecastEl = $("<h3 class='forecast-title'>").text("5 Day Forecast");
             $("#forecast").append(forecastEl);
 
           //  display mapResults
@@ -110,17 +110,27 @@ function displayForecast(latitude, longitude) {
                 console.log("Humidity: ", humidity);
                 var windSpeed = mappedResults[i].maxWindSpd.toFixed(2) + " KPH";
                 console.log("Wind Speed: ", windSpeed);
-
-                var dateEl = $("<h5 class='date container'>").text(date);
+                var iconUrl = mappedResults[i].iconUrl;
+                console.log("Icon URL: ", iconUrl);
+                // add it to html
+                var dateEl = $("<h5 class='date'>").text(date);
                 var pTemp = $("<p class='temp'>").text("Temp: " + temp);
                 var pWind = $("<p class='wind'>").text("Wind Speed: " + windSpeed);
                 var pHumidity = $("<p class='humidity'>").text("Humidity: " + humidity);
+                var iconImg = $("<img>").attr("src", iconUrl).attr("alt", "Weather Icon");
 
-                forecastEl.append(dateEl);
-                dateEl.append(pTemp);
-                dateEl.append(pWind);
-                dateEl.append(pHumidity);
-                $("#forecast").append(forecastEl);
+                // new div element to store each days forecast within the container
+                var dayContainer = $("<div class='day-container'>");
+
+                // append to get it displayed
+                dayContainer.append(dateEl);
+                dayContainer.append(iconImg);
+                dayContainer.append(pTemp);
+                dayContainer.append(pWind);
+                dayContainer.append(pHumidity);
+
+                // append container to the forecast element
+                forecastEl.append(dayContainer);
           };
         });
 };
