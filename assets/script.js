@@ -121,9 +121,7 @@ function displayForecast(latitude, longitude) {
                 dateEl.append(pWind);
                 dateEl.append(pHumidity);
                 $("#forecast").append(forecastEl);
-          }
-
-
+          };
         });
 };
 
@@ -192,23 +190,41 @@ function calculateMinMax(forecasts) {
 function mapResults() {
     // get forecastsByDay data date object
     var mappedResults = Object.keys(forecastsByDay).map(date => {
+        var forecastForDate = forecastsByDay[date];
     var { minTemp, maxTemp, minHum, maxHum, minWindSpd, maxWindSpd } = calculateMinMax(forecastsByDay[date]);
+
+    if (maxTemp !== null) {
+        // use 3pm time for the icon
+        var forecast3PM = forecastForDate.find(forecast => forecast.dt_txt.includes('15:00:00'));
+        // check if forecast3PM.weather exist before accesing properties
+        if (forecast3PM && forecast3PM.weather && forecast3PM.weather[0]) {
+            // set var for icon
+        var icon = forecast3PM.weather[0].icon;
+        // add icon URL
+        var iconUrl = "https://openweathermap.org/img/w/" + icon + ".png";
         // return mapResults as an array
         return {
             date: date,
             minTemp: minTemp,
             maxTemp: maxTemp,
-            minHum: minHum,
+            // minHum: minHum,
             maxHum: maxHum,
-            minWindSpd: minWindSpd,
-            maxWindSpd: maxWindSpd
+            // minWindSpd: minWindSpd,
+            maxWindSpd: maxWindSpd,
+            iconUrl
         };
+    } else {
+        return null;
+    }
+} else {
+    return null;
+}
     });
     console.log(mappedResults);
-    return mappedResults;
+    // filter the results
+    return mappedResults.filter(result => result !== null);
 } 
 //--------------------------------
-
 
 
 
