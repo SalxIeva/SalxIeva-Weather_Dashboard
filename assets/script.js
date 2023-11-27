@@ -26,6 +26,7 @@ $("#search-button").on("click", function (event) {
      console.log(data);
       // var created for name of the city
         var cityName = data.name; 
+        // saveToLocalStorage(cityName);
          // var created for current date
         var currentDt = dayjs().format("D-M-YYYY");
         console.log(currentDt);
@@ -104,10 +105,21 @@ function displayForecast(latitude, longitude) {
             for (var i = 0; i < mappedResults.length; i++) {
                 var date = mappedResults[i].date;
                 console.log(date);
-                // var minTemp = mappedResults[i].minTemp.toFixed(2) + " °C";
-                // console.log("Min Temp:", minTemp);
-                var temp = mappedResults[i].maxTemp.toFixed(2) + " °C";
-                console.log("Max Temp: ", temp);
+                var minTemp = mappedResults[i].minTemp.toFixed(2) + " °C";
+                console.log("Min Temp:", minTemp);
+                var maxTemp = mappedResults[i].maxTemp.toFixed(2) + " °C";
+                console.log("Max Temp: ", maxTemp);
+                var temp;
+                // need to check if maxTemp is positive or negative
+                if (parseFloat(minTemp) < 0) {
+                    temp = minTemp;
+                    // console.log(minTemp);
+                } else {
+                    temp = maxTemp;
+                    // console.log(maxTemp);
+                };
+                console.log("Displayed temp: ", temp);
+
                 var humidity = mappedResults[i].maxHum.toFixed(0) + " %";
                 console.log("Humidity: ", humidity);
                 var windSpeed = mappedResults[i].maxWindSpd.toFixed(2) + " KPH";
@@ -160,24 +172,24 @@ function groupForecastsByDay(forecasts) {
 };
 // console.log("return: ", forecastsByDay);
 
-
-//----------------
-
 // can map() results from new array to get average temp, humidity, and icon
 // function to calculate min max temperature, humidity, wind speed
 function calculateMinMax(forecasts) {
-    var minTemp = Number.MAX_VALUE;
-    var maxTemp = Number.MIN_VALUE;
+    // Initialize minTemp and maxTemp with the first temperature value
+    var firstTemp = forecasts[0].main.temp;
+    var minTemp = firstTemp;
+    var maxTemp = firstTemp;
+
     var minHum = Number.MAX_VALUE;
     var maxHum = Number.MIN_VALUE;
     var minWindSpd = Number.MAX_VALUE;
     var maxWindSpd = Number.MIN_VALUE;
-    // use forEach to apply for every array list. 
+    // for each function to go through each dates array and get min/max
     forecasts.forEach(forecast => {
         var temp = forecast.main.temp;
         var humidity = forecast.main.humidity;
         var windSpeed = forecast.wind.speed;
-        // use math.min/max to get average min/max temp, humidity, wind speed
+        // get min/max for temp, humidity, wind speed
         minTemp = Math.min(minTemp, temp);
         maxTemp = Math.max(maxTemp, temp);
 
@@ -186,16 +198,16 @@ function calculateMinMax(forecasts) {
 
         minWindSpd = Math.min(minWindSpd, windSpeed);
         maxWindSpd = Math.max(maxWindSpd, windSpeed);
-
-   
     });
-    return { 
-        minTemp, 
+
+    return {
+        minTemp,
         maxTemp,
         minHum,
         maxHum,
         minWindSpd,
-        maxWindSpd }; 
+        maxWindSpd
+    };
 }
 
 // create a function to map all over an array of each day 
@@ -205,6 +217,8 @@ function mapResults() {
     var mappedResults = Object.keys(forecastsByDay).map(date => {
         var forecastForDate = forecastsByDay[date];
     var { minTemp, maxTemp, minHum, maxHum, minWindSpd, maxWindSpd } = calculateMinMax(forecastsByDay[date]);
+    // console.log("Mapped Min Temp:", minTemp);
+    //     console.log("Mapped Max Temp:", maxTemp);
 
     if (maxTemp !== null) {
         // use 3pm time for the icon
@@ -228,17 +242,13 @@ function mapResults() {
         };
     } else {
         return null;
-    }
-} else {
-    return null;
-}
-    });
+    }};
+});
     console.log(mappedResults);
     // filter the results
     return mappedResults.filter(result => result !== null);
 } 
 //--------------------------------
-
 
 
 
