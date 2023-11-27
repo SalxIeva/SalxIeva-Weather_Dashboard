@@ -95,11 +95,13 @@ function displayForecast(latitude, longitude) {
             // call mapResults function 
             mappedResults = mapResults();
 
+           
             var forecastEl = $("<h3 class='forecast-title'>").text("5 Day Forecast");
             $("#forecast").append(forecastEl);
+            var div = $("<div class='input-forecast flex-container'>");
 
           //  display mapResults
-            for (var i = 1; i < mappedResults.length; i++) {
+            for (var i = 0; i < mappedResults.length; i++) {
                 var date = mappedResults[i].date;
                 console.log(date);
                 // var minTemp = mappedResults[i].minTemp.toFixed(2) + " °C";
@@ -130,8 +132,9 @@ function displayForecast(latitude, longitude) {
                 dayContainer.append(pHumidity);
 
                 // append container to the forecast element
-                forecastEl.append(dayContainer);
-          };
+                div.append(dayContainer);
+            };
+            $("#forecast").append(div);
         });
 };
 

@@ -54,13 +54,16 @@ div {
 
 #forecast {
     border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    /* justify-content:space-between; */
 }
-
-/* .input-forecast {
-    font-size: x-large;
-    font-weight: 600; */
-/* } */
-
-.container {
-    border: 2px solid red;
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+}
+.day-container {
+    padding: 10px;
+    background-color: #4F5F73;
+    color: white;
 }
