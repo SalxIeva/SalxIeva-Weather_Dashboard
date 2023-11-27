@@ -5,14 +5,22 @@ var APIkey = "198a22f2c9df51736e5b079afd6d3dd6";
 var forecastsByDay;
 var mappedResults;
 
-// Check if there is a saved city name in local storage
-var savedCityName = localStorage.getItem("cityName");
+// retrieve city name from local storage and displey city names
+var savedCityName = JSON.parse(localStorage.getItem("cityNames")) || [];
 
-// Display the saved city name in the #history element
-if (savedCityName) {
-    var historyBtn = $("<button>").text(savedCityName).addClass("history-button");
+// function to create history button
+function createHistoryBtn(cityName) {
+    var historyBtn = $("<button>")
+        .text(cityName)
+        .addClass("history-button list-group-item list-group-item-action");
     $("#history").append(historyBtn);
 }
+
+// for each function to get names displayed in history section
+savedCityName.forEach(function (cityName) {
+    createHistoryBtn(cityName);
+});
+
 
 // click function for search button, to retrieve data from once user presses search button
 $("#search-button").on("click", function (event) {
@@ -21,8 +29,15 @@ $("#search-button").on("click", function (event) {
      
     // variable name created to get city's name as user input
     var name = $("#search-input").val();
-    // Save the city name to local storage
+    // save the city name to local storage
     saveToLocalStorage("cityName", name);
+    // add the city name to the savedCityNames array
+    savedCityName.push(name);
+    // save the updated city names array to local storage
+    saveToLocalStorage("cityNames", JSON.stringify(savedCityName));
+
+    // create and display a history button for the new city name
+    createHistoryBtn(name);
 
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=" + APIkey + "&units=metric";
     // fetching weather data from queryURL
