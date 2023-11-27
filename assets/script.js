@@ -5,6 +5,14 @@ var APIkey = "198a22f2c9df51736e5b079afd6d3dd6";
 var forecastsByDay;
 var mappedResults;
 
+// Check if there is a saved city name in local storage
+var savedCityName = localStorage.getItem("cityName");
+
+// Display the saved city name in the #history element
+if (savedCityName) {
+    var historyBtn = $("<button>").text(savedCityName).addClass("history-button");
+    $("#history").append(historyBtn);
+}
 
 // click function for search button, to retrieve data from once user presses search button
 $("#search-button").on("click", function (event) {
@@ -13,8 +21,9 @@ $("#search-button").on("click", function (event) {
      
     // variable name created to get city's name as user input
     var name = $("#search-input").val();
+    // Save the city name to local storage
+    saveToLocalStorage("cityName", name);
 
-    // var queryURL = "http://api.openweathermap.org/geo/1.0/direct?q=" + name + "&limit=5&appid=" + APIkey;
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=" + APIkey + "&units=metric";
     // fetching weather data from queryURL
     fetch(queryURL)
@@ -26,7 +35,6 @@ $("#search-button").on("click", function (event) {
      console.log(data);
       // var created for name of the city
         var cityName = data.name; 
-        // saveToLocalStorage(cityName);
          // var created for current date
         var currentDt = dayjs().format("D-M-YYYY");
         console.log(currentDt);
@@ -77,7 +85,11 @@ $("#search-button").on("click", function (event) {
             displayForecast(lat, lon);
         }
     });
-})
+});
+// function created to save items to local Storage
+function saveToLocalStorage(key, value) {
+    localStorage.setItem(key, value);
+}
 
 // function created to fetch ofrecast data by citys latitude and longitude
 function displayForecast(latitude, longitude) {
@@ -248,7 +260,6 @@ function mapResults() {
     // filter the results
     return mappedResults.filter(result => result !== null);
 } 
-//--------------------------------
 
 
 
