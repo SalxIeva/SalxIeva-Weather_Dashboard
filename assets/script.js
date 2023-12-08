@@ -12,10 +12,15 @@ var savedCityName = JSON.parse(localStorage.getItem("cityNames")) || [];
 function createHistoryBtn(cityName) {
     var historyBtn = $("<button>")
         .text(cityName)
-        .addClass("history-button list-group-item list-group-item-action");
+        .addClass("history-button list-group-item list-group-item-action")
+        .attr("style", "background-color: gray");
     $("#history").append(historyBtn);
 }
 
+historyBtn.on("click", function (event) {
+    event.preventDefault();
+    
+})
 // for each function to get names displayed in history section
 savedCityName.forEach(function (cityName) {
     createHistoryBtn(cityName);
@@ -38,6 +43,8 @@ $("#search-button").on("click", function (event) {
 
     // create and display a history button for the new city name
     createHistoryBtn(name);
+
+    $("#today").empty();
 
     var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + name + "&appid=" + APIkey + "&units=metric";
     // fetching weather data from queryURL
@@ -108,6 +115,7 @@ function saveToLocalStorage(key, value) {
 
 // function created to fetch ofrecast data by citys latitude and longitude
 function displayForecast(latitude, longitude) {
+    $("#forecast").empty();
     // queery URL for forecast data
     var queryURL = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=metric&appid=" + APIkey;
     // getting weather data from queryURL
@@ -275,10 +283,6 @@ function mapResults() {
     // filter the results
     return mappedResults.filter(result => result !== null);
 } 
-
-
-
-
 
 
 // Create a weather dashboard with form inputs.
