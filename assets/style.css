@@ -67,3 +67,11 @@ div {
     background-color: #4F5F73;
     color: white;
 }
+
+.list-group-item {
+    border-radius: 7px;
+    margin-bottom: 10px;   
+}
+historyBtn {
+    background-color: red;
+}
